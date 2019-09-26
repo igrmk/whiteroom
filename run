@@ -1,0 +1,5 @@
+#!/bin/bash
+if ./build-whiteroom; then
+    cd bundle
+    ./whiteroom
+fi

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if [ "$(uname)" == "Darwin" ]; then
+    readlink() { greadlink "$@"; }
+fi
+
+cur="$(dirname "$(readlink -f "$0")")"
+
+cd "$cur/libs/ffmpeg"
+make clean
+
+./configure --prefix="$cur/libs/ffmpeg-build" \
+            --enable-shared \
+            --disable-static \
+            --disable-doc \
+            --disable-ffmpeg \
+            --disable-ffplay \
+            --disable-ffprobe \
+            --disable-avdevice \
+            --disable-symver \
+            --enable-network \
+            --disable-encoders \
+            --disable-muxers \
+&& make \
+&& make install \
+&& make clean

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [ "$(uname)" == "Darwin" ]; then
+    readlink() { greadlink "$@"; }
+fi
+
+cur="$(dirname "$(readlink -f "$0")")"
+
+silentrm() { [[ -f "$1" || -d "$1" ]] && echo "removing $1" && rm -r "$1"; }
+
+clean() {
+    make clean
+    silentrm bin
+    silentrm lib
+    silentrm bindings/cpp/bin/.deps
+    silentrm bindings/cpp/bin/.libs
+    silentrm bindings/cpp/lib/.deps
+    silentrm bindings/cpp/lib/.libs
+    find bindings/cpp/lib ! -name 'Makefile.am' -and ! -name 'Makefile.in' -type f -delete
+    find bindings/cpp/bin ! -name 'Makefile.am' -and ! -name 'Makefile.in' -type f -delete
+    silentrm bindings/cpp/portaudiocpp.pc
+}
+
+params=(--enable-cxx=yes --prefix="$cur/libs/portaudio-build")
+
+case "$(uname -s)" in
+    Linux*) params+=(--without-oss);;
+    Darwin) params+=(--disable-mac-universal);;
+    MINGW*) params+=(--with-winapi=directx);;
+esac
+
+silentrm "$cur/libs/portaudio-build"
+
+cd "$cur/libs/portaudio"
+clean
+./configure "${params[@]}" && make && make install
+clean

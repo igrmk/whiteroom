@@ -1,0 +1,5 @@
+#!/bin/bash
+cur="$(dirname "$(readlink -f "$0")")"
+mkdir -p "$cur/build-tools-dir"
+cd "$cur/build-tools-dir"
+cmake ../tools && cmake --build .

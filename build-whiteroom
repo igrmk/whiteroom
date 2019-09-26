@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    readlink() { greadlink "$@"; }
+fi
+
+if [[ "$(uname -s)" =~ ^MINGW.* ]]; then
+    create_makefiles() { cmake -G "MSYS Makefiles" ../src; }
+else
+    create_makefiles() { cmake ../src; }
+fi
+
+cur="$(dirname "$(readlink -f "$0")")"
+mkdir -p "$cur/build"
+pushd "$cur/build"
+rm -rf ../bundle
+
+true &&
+    create_makefiles &&
+    cmake --build . &&
+    cmake --build . --target install

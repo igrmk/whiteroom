@@ -1,0 +1,5 @@
+#!/bin/bash
+cur="$(dirname "$(readlink -f "$0")")"
+pushd "$cur"
+uncrustify --no-backup -c uncrustify.cfg src/*.h src/*.cpp tools/*.cpp
+popd

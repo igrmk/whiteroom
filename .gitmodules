@@ -1,0 +1,12 @@
+[submodule "libs/json"]
+	path = libs/json
+	url = https://github.com/nlohmann/json.git
+[submodule "libs/cppformat"]
+	path = libs/cppformat
+	url = https://github.com/cppformat/cppformat.git
+[submodule "libs/spdlog"]
+	path = libs/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "libs/portaudio"]
+	path = libs/portaudio
+	url = https://git.assembla.com/portaudio.git
