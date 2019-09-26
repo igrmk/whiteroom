@@ -10,3 +10,6 @@
 [submodule "libs/portaudio"]
 	path = libs/portaudio
 	url = https://git.assembla.com/portaudio.git
+[submodule "libs/ffmpeg"]
+	path = libs/ffmpeg
+	url = https://git.ffmpeg.org/ffmpeg.git
