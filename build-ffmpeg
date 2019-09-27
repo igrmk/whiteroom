@@ -7,7 +7,8 @@ fi
 cur="$(dirname "$(readlink -f "$0")")"
 
 cd "$cur/libs/ffmpeg"
-make clean
+
+[[ -f tests/Makefile ]] && make clean
 
 ./configure --prefix="$cur/libs/ffmpeg-build" \
             --enable-shared \
