@@ -42,7 +42,7 @@ public:
             std::begin(names),
             std::end(names),
             std::back_inserter(result),
-            [] (std::string from) { return QString::fromStdString(from); });
+            [] (std::string from) { return QString::fromUtf8(from.data()); });
 
         return new QStringListModel(result);
     }
