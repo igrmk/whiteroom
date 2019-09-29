@@ -18,5 +18,4 @@ esac
 
 params+=(../src)
 
-export MACOS_DEPLOYMENT_TARGET=10.12
 cmake "${params[@]}" && cmake --build . && cmake --build . --target install

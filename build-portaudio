@@ -31,8 +31,6 @@ esac
 
 silentrm "$cur/libs/portaudio-build"
 
-export MACOS_DEPLOYMENT_TARGET=10.12
-
 cd "$cur/libs/portaudio"
 
 clean
