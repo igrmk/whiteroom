@@ -1,2 +1,2 @@
 #!/bin/bash
-brew install coreutils yasm
+brew install coreutils yasm cmake qt
