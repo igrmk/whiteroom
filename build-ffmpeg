@@ -8,20 +8,23 @@ cur="$(dirname "$(readlink -f "$0")")"
 
 cd "$cur/libs/ffmpeg"
 
-[[ -f tests/Makefile ]] && make clean
+export MACOS_DEPLOYMENT_TARGET=10.12
+[[ -f ffbuild/config.mak ]] && make clean
 
-./configure --prefix="$cur/libs/ffmpeg-build" \
-            --enable-shared \
-            --disable-static \
-            --disable-doc \
-            --disable-ffmpeg \
-            --disable-ffplay \
-            --disable-ffprobe \
-            --disable-avdevice \
-            --disable-symver \
-            --enable-network \
-            --disable-encoders \
-            --disable-muxers \
-&& make \
-&& make install \
-&& make clean
+params=(
+    --prefix="$cur/libs/ffmpeg-build"
+    --enable-shared
+    --disable-static
+    --disable-doc
+    --disable-ffmpeg
+    --disable-ffplay
+    --disable-ffprobe
+    --disable-avdevice
+    --disable-symver
+    --enable-network
+    --disable-encoders
+    --disable-muxers
+)
+
+./configure "${params[@]}" && make && make install
+[[ -f ffbuild/config.mak ]] && make clean

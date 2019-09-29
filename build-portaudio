@@ -9,7 +9,7 @@ cur="$(dirname "$(readlink -f "$0")")"
 silentrm() { [[ -f "$1" || -d "$1" ]] && echo "removing $1" && rm -r "$1"; }
 
 clean() {
-    make clean
+    [[ -f config.status ]] && make clean
     silentrm bin
     silentrm lib
     silentrm bindings/cpp/bin/.deps
@@ -31,7 +31,10 @@ esac
 
 silentrm "$cur/libs/portaudio-build"
 
+export MACOS_DEPLOYMENT_TARGET=10.12
+
 cd "$cur/libs/portaudio"
+
 clean
 ./configure "${params[@]}" && make && make install
 clean
