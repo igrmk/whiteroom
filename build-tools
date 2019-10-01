@@ -2,4 +2,17 @@
 cur="$(dirname "$(readlink -f "$0")")"
 mkdir -p "$cur/build-tools-dir"
 cd "$cur/build-tools-dir"
-cmake ../tools && cmake --build .
+
+params=()
+
+case "$(uname -s)" in
+    MINGW*) params+=(-G "MSYS Makefiles");;
+esac
+
+params+=(../tools)
+
+cmake "${params[@]}" && cmake --build .
+
+case "$(uname -s)" in
+    MINGW*) cmake --build . --target install
+esac

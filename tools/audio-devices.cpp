@@ -1,23 +1,31 @@
 #include <iostream>
-#include <alsa/asoundlib.h>
-#include <jack/jack.h>
+#ifdef __linux__
+    #include <alsa/asoundlib.h>
+    #include <jack/jack.h>
+#endif
 
 #include "../src/audio.h"
 
-void alsa_error_handler (const char* file, int line, const char* function, int err, const char* fmt, ...) {
-    const auto size = 1024;
-    char buffer [size];
-    va_list arg;
-    va_start (arg, fmt);
-    snprintf(buffer, size, fmt, arg);
-    va_end (arg);
-}
+#ifdef __linux__
+    void alsa_error_handler (const char* file, int line, const char* function, int err, const char* fmt, ...) {
+        const auto size = 1024;
+        char buffer [size];
+        va_list arg;
+        va_start (arg, fmt);
+        snprintf(buffer, size, fmt, arg);
+        va_end (arg);
+    }
+#endif
 
-void jack_error_handler (const char* text) {}
+#ifdef __linux__
+    void jack_error_handler (const char* text) {}
+#endif
 
 int main(int argc, char* argv[]) {
-    snd_lib_error_set_handler(alsa_error_handler);
-    jack_set_error_function(jack_error_handler);
+    #ifdef __linux__
+        snd_lib_error_set_handler(alsa_error_handler);
+        jack_set_error_function(jack_error_handler);
+    #endif
 
     portaudio::AutoSystem autoSystem;
 

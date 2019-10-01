@@ -5,6 +5,7 @@
 *.version
 .idea/
 bundle/
+tools-bundle/
 build/
 build-tools-dir/
 build-debug/
