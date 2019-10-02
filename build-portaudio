@@ -34,5 +34,5 @@ silentrm "$cur/libs/portaudio-build"
 cd "$cur/libs/portaudio"
 
 clean
-./configure "${params[@]}" && make && make install
+CXXFLAGS="-g -O2 -Wall -ansi -pedantic -DUNICODE -D_UNICODE" CFLAGS="-DUNICODE -D_UNICODE" ./configure "${params[@]}" && make && make install
 clean
