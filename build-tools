@@ -1,4 +1,9 @@
 #!/bin/bash
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    readlink() { greadlink "$@"; }
+fi
+
 cur="$(dirname "$(readlink -f "$0")")"
 mkdir -p "$cur/build-tools-dir"
 cd "$cur/build-tools-dir"
