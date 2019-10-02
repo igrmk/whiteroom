@@ -14,7 +14,7 @@ import SharedAmplitudes 1.0
 
 ApplicationWindow {
     id: window
-    title: qsTr("Whiteroom v0.2")
+    title: qsTr("Whiteroom v0.3")
     visible: true
     width: 800
     height: 640
