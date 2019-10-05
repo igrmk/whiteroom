@@ -128,7 +128,7 @@ void rtsp(
     av_read_play(input_ctx);
 
     on_log("creating video decoder");
-    AVCodec* decoder = avcodec_find_decoder(AV_CODEC_ID_H264);
+    AVCodec* decoder = avcodec_find_decoder(input_ctx->streams[video_stream_index]->codecpar->codec_id);
     if (!decoder) {
         on_fatal_error("cannot find video decoder");
         return;
