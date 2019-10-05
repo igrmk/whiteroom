@@ -207,8 +207,6 @@ void rtsp(
     avformat_close_input(&input_ctx);
 
     on_stop();
-
-    return;
 }
 
 int decode(AVCodecContext* context, AVFrame* frame, bool* got_frame, AVPacket* pkt) {
