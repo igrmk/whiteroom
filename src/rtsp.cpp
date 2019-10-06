@@ -15,6 +15,7 @@ extern "C" {
 #include <libavformat/avio.h>
 #include <libswscale/swscale.h>
 #include <libavutil/imgutils.h>
+#include <libavutil/time.h>
 }
 
 #include "rtsp.h"
@@ -167,6 +168,8 @@ void rtsp(
     int prev_final_width = 0;
     SwsContext* img_convert_ctx = nullptr;
 
+    auto capture = url.rfind("rtsp:", 0) == 0;
+
     on_log("reading video frames");
     auto packet = av_packet_alloc();
     while (!should_stop() && av_read_frame(input_ctx, packet) >= 0) {
@@ -193,6 +196,9 @@ void rtsp(
                 picture_rgb->height = final_height;
                 picture_rgb->width = final_width;
                 on_frame(picture_rgb);
+                if (!capture) {
+                    av_usleep(1000000/30);
+                }
             }
         }
         av_packet_unref(packet);
