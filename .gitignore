@@ -4,6 +4,7 @@
 *.pc
 *.version
 .idea/
+.DS_Store
 bundle/
 tools-bundle/
 build/
