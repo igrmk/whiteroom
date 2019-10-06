@@ -17,9 +17,9 @@ ApplicationWindow {
     title: qsTr("Whiteroom v0.3")
     visible: true
     width: 800
-    height: 640
+    height: 690
     minimumWidth: 600
-    minimumHeight: 640
+    minimumHeight: 690
     Material.theme: Material.Light
     Material.accent: Material.DeepPurple
 
@@ -67,6 +67,7 @@ ApplicationWindow {
         keysNumber: keysNumberSlider.value
         amplitudes: amplitudes
         reverb: reverbSlider.value
+        blackOnWhite: mode.currentIndex == 0
     }
 
     Generator {
@@ -126,6 +127,17 @@ ApplicationWindow {
                 id: audioSamples
                 model: [64, 128, 192, 256, 320, 384, 448, 512, 1024]
                 currentIndex: 2
+                Layout.fillWidth: true
+            }
+
+            Label {
+                text: qsTr("Mode")
+            }
+
+            ComboBox {
+                id: mode
+                model: [qsTr("Black on white"), qsTr("White on black")]
+                currentIndex: 0
                 Layout.fillWidth: true
             }
 

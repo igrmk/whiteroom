@@ -29,6 +29,7 @@ class Camera : public QObject {
     Q_PROPERTY(SharedAmplitudes * amplitudes MEMBER amplitudes_)
     Q_PROPERTY(int keysNumber MEMBER keysNumber_)
     Q_PROPERTY(int reverb MEMBER reverb_)
+    Q_PROPERTY(bool blackOnWhite MEMBER blackOnWhite_)
 
 public:
     explicit Camera(QObject* parent = nullptr) : QObject(parent), log_(getlog()) {
@@ -80,6 +81,7 @@ private:
     logger log_;
     std::atomic<int> keysNumber_ = -1;
     std::atomic<int> reverb_ = -1;
+    std::atomic<bool> blackOnWhite_ = false;
 
     void onFrame(AVFrame* frame) {
         auto h = frame->height;
@@ -87,13 +89,17 @@ private:
         auto z = (1. + k * h / 2.) * frame->width * 3.;
         auto r = reverb_ / 100.;
         auto& amplitudes = amplitudes_->get();
+        auto blackOnWhite = blackOnWhite_.load();
         for (int x = 0; x < frame->width; x++) {
             double column = 0.;
             for (int y = 0; y < h; y++) {
                 double pix = 0.;
                 for (int c = 0; c < 3; c++) {
                     auto cur = static_cast<int>((frame->data[0] + y * frame->linesize[0])[x * 3 + c]);
-                    pix += norm(255 - cur, cameraSensitivity_ / 100.);
+                    if (blackOnWhite) {
+                       cur = 255 - cur;
+                    }
+                    pix += norm(cur, cameraSensitivity_ / 100.);
                 }
                 pix *= (1. + (h - y) * k);
                 column += pix;
