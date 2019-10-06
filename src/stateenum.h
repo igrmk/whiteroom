@@ -1,5 +1,4 @@
-#ifndef STATEENUM_H
-#define STATEENUM_H
+#pragma once
 
 #include <QObject>
 #include <QQmlEngine>
@@ -18,5 +17,3 @@ public:
 
     Q_ENUMS(StateEnum)
 };
-
-#endif // STATEENUM_H

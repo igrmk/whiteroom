@@ -31,13 +31,13 @@ class Camera : public QObject {
     Q_PROPERTY(int reverb MEMBER reverb_)
 
 public:
-    explicit Camera(QObject* parent = nullptr) : QObject(parent), state_(StateEnumModule::StateEnum::STOPPED), log_(getlog()) {
+    explicit Camera(QObject* parent = nullptr) : QObject(parent), log_(getlog()) {
         connect(this, &Camera::signalError, this, &Camera::onError);
         connect(this, &Camera::signalStop, this, &Camera::onStop);
     }
 
     void start() {
-        m_shouldStop = false;
+        shouldStop_ = false;
         setLastError("");
         std::fill(amplitudes_->get().begin(), amplitudes_->get().end(), 0.);
         std::thread(
@@ -47,7 +47,7 @@ public:
             [this](const std::string& text) { emit this->signalError(QString::fromStdString(text)); },
             []() {},
             [this]() { emit this->signalStop(); },
-            [this]() -> bool { return this->m_shouldStop; },
+            [this]() -> bool { return this->shouldStop_; },
             [this](const std::string& text) { this->log_->info(text); },
             [this]() -> int { return this->keysNumber_.load(); },
             audioHeight_,
@@ -58,7 +58,7 @@ public:
     void stop() {
         if (state_ == StateEnumModule::StateEnum::STARTED) {
             setState(StateEnumModule::StateEnum::STOPPING);
-            m_shouldStop = true;
+            shouldStop_ = true;
         }
     }
 
@@ -72,14 +72,14 @@ private:
     QString url_;
     std::atomic<int> cameraSensitivity_ = 0;
     std::atomic<int> verticalWeighting_ = 0;
-    SharedAmplitudes* amplitudes_;
+    SharedAmplitudes* amplitudes_ = nullptr;
     int audioHeight_ = -1;
-    std::atomic<bool> m_shouldStop;
-    std::atomic<StateEnumModule::StateEnum> state_;
+    std::atomic<bool> shouldStop_ = false;
+    std::atomic<StateEnumModule::StateEnum> state_ = StateEnumModule::StateEnum::STOPPED;
     QString lastError_;
     logger log_;
-    std::atomic<int> keysNumber_;
-    std::atomic<int> reverb_;
+    std::atomic<int> keysNumber_ = -1;
+    std::atomic<int> reverb_ = -1;
 
     void onFrame(AVFrame* frame) {
         auto h = frame->height;

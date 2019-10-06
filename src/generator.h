@@ -48,16 +48,16 @@ public:
 
 private:
     std::vector<double> amplitudes_;
-    SharedAmplitudes* sharedAmplitudes_;
+    SharedAmplitudes* sharedAmplitudes_ = nullptr;
     long pos_ = 0;
     std::promise<bool> nextPromise_;
     std::promise<bool> outputPromise_;
     std::vector<char> buffer_;
-    std::atomic<int> volume_;
-    std::atomic<int> minNote_;
-    std::atomic<int> maxNote_;
+    std::atomic<int> volume_ = -1;
+    std::atomic<int> minNote_ = -1;
+    std::atomic<int> maxNote_ = -1;
     AudioConfigData audioConfig_;
-    std::atomic<double> keysNumber_;
+    std::atomic<int> keysNumber_ = -1;
     logger log_;
 
     void generate();

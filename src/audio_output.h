@@ -33,7 +33,7 @@ public:
         initializeAudio();
     }
 
-    ~AudioOutput() { stop(); }
+    ~AudioOutput() override { stop(); }
 
     QStringListModel* devices() {
         auto names = device_names();
@@ -100,9 +100,9 @@ private:
     }
 
     std::unique_ptr<portaudio::AutoSystem> raiiSystem_;
-    portaudio::System* audioSystem_;
+    portaudio::System* audioSystem_ = nullptr;
     std::unique_ptr<portaudio::MemFunCallbackStream<AudioOutput>> stream_;
-    Generator* generator_;
+    Generator* generator_ = nullptr;
     logger log_;
     AudioConfigData audioConfig_;
     std::atomic<bool> working_ = false;
