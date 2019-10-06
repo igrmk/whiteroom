@@ -27,6 +27,7 @@ class AudioOutput : public QObject
 
     Q_PROPERTY(QStringListModel * devices READ devices NOTIFY signalDevicesChanged)
     Q_PROPERTY(Generator * generator MEMBER generator_)
+    Q_PROPERTY(int defaultDevice READ defaultDevice)
 
 public:
     explicit AudioOutput(QObject* parent = nullptr) : QObject(parent), log_(getlog()) {
@@ -48,6 +49,8 @@ public:
     }
 
     void setAudioConfig(AudioConfigData config) { audioConfig_ = config; }
+
+    int defaultDevice() { return audioSystem_->defaultOutputDevice().index(); }
 
     void start() {
         if (audioConfig_.device_ == -1) {

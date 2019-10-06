@@ -117,6 +117,7 @@ ApplicationWindow {
                 model: output.devices
                 Layout.fillWidth: true
                 textRole: "display"
+                Component.onCompleted: currentIndex = output.defaultDevice
             }
 
             Label {
