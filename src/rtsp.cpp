@@ -195,7 +195,7 @@ void rtsp(
                 picture_rgb->width = final_width;
                 on_frame(picture_rgb);
                 if (!capture) {
-                    av_usleep(1000000/30);
+                    av_usleep(1000000 / 30);
                 }
             }
         }

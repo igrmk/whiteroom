@@ -97,7 +97,7 @@ private:
                 for (int c = 0; c < 3; c++) {
                     auto cur = static_cast<int>((frame->data[0] + y * frame->linesize[0])[x * 3 + c]);
                     if (blackOnWhite) {
-                       cur = 255 - cur;
+                        cur = 255 - cur;
                     }
                     pix += norm(cur, cameraSensitivity_ / 100.);
                 }
