@@ -6,7 +6,7 @@ fi
 
 cur="$(dirname "$(readlink -f "$0")")"
 mkdir -p "$cur/build"
-pushd "$cur/build"
+cd "$cur/build"
 rm -rf ../bundle
 
 params=()
